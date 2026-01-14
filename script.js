@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
 
-    if (mobileMenuToggle) {
+    if (mobileMenuToggle && navMenu) {
         mobileMenuToggle.addEventListener('click', function() {
             navMenu.classList.toggle('active');
             
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     
                     // Close mobile menu if open
-                    if (navMenu.classList.contains('active')) {
+                    if (navMenu && navMenu.classList.contains('active') && mobileMenuToggle) {
                         navMenu.classList.remove('active');
                         const spans = mobileMenuToggle.querySelectorAll('span');
                         spans.forEach(span => span.style.transform = '');
@@ -58,12 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Basic validation
             if (!name || !email || !message) {
-                alert('Please fill in all fields');
+                showNotification('Please fill in all fields');
                 return;
             }
             
             if (!isValidEmail(email)) {
-                alert('Please enter a valid email address');
+                showNotification('Please enter a valid email address');
                 return;
             }
             
@@ -106,7 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.3s ease-out';
             setTimeout(() => {
-                document.body.removeChild(notification);
+                if (notification.parentNode) {
+                    document.body.removeChild(notification);
+                }
             }, 300);
         }, 3000);
     }
